@@ -5,19 +5,27 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Center(
-      child: Text(
-        "Hello World",
-        textDirection: TextDirection.ltr,
-        style: TextStyle(
-          fontSize: 30,
-          fontWeight: FontWeight.bold,
-          color: Colors.blue,
-        ),
-      ),
-    ));
-  }
+    return const MaterialApp(
+      title: 'iHouseKeeper',
+      home: MainScreen(),
+    ); // MaterialApp
+  } // build()
+}
+
+class MainScreen extends StatelessWidget {
+  const MainScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('iHouseKeeper')),
+      body: const Center(
+        child: Text('Hello World'),
+      ), // Center
+    ); // Scaffold
+  } // build()
 }
