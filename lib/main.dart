@@ -29,10 +29,39 @@ class MainScreen extends StatelessWidget {
     permission_manager.getPermission(context, Permission.location);
     // p.getPermission(context, Permission.photos);
     return Scaffold(
-      appBar: AppBar(title: const Text('iHouseKeeper')),
-      body: const Center(
-        child: Text('Hello World'),
-      ), // Center
-    ); // Scaffold
+        appBar: AppBar(title: const Text('iHouseKeeper')),
+        body: Center(
+            child: Row(children: [
+          InkWell(
+            child: const Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image(
+                    image: AssetImage('assets/images/water_electricity.png'),
+                    width: 100,
+                  ),
+                ),
+                Text('水電維修')
+              ],
+            ), // Column
+            onTap: () {},
+          ),
+          InkWell(
+            child: const Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image(
+                    image: AssetImage('assets/images/house_decoration.jpg'),
+                    width: 100,
+                  ),
+                ),
+                Text('房屋裝修')
+              ],
+            ), // Column
+            onTap: () {},
+          ), // InkWell// InkWell
+        ]))); // Scaffold
   } // build()
 }
