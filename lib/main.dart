@@ -64,9 +64,9 @@ class MainScreen extends StatelessWidget {
               Buttons.getButton('成長課程', 'assets/images/growth_course.jpg',
                   () => Events.openMap(context, map_type.group_course)),
               Buttons.getButton('結伴郊遊', 'assets/images/outing.jpg',
-                  () => Events.openMap(context, map_type.outing)),
-              Buttons.getButton(
-                  '我的最愛', 'assets/images/my_favourite.jpg', () => null),
+                  () => Events.openMap(context, map_type.outings)),
+              Buttons.getButton('我的最愛', 'assets/images/my_favourite.jpg',
+                  () => Events.openMyFavorite(context)),
             ]) // Row
           ],
         )); // Scaffold

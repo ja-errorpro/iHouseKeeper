@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Buttons {
-  static Widget getButton(String text, String image, Function() onTap) {
+  static Widget getButton(String text, String image, Function()? onTap) {
     return InkWell(
       onTap: onTap,
       child: Column(
