@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:maps_launcher/maps_launcher.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 enum map_type {
   water_electricity('水電維修'),
@@ -15,11 +17,20 @@ enum map_type {
   pharmacy('藥局找'),
   group_buying('團購找'),
   group_course('成長課程'),
-  outings('結伴郊遊'),
-  my_favorite('我的最愛');
+  outings('結伴郊遊');
 
   const map_type(this.name);
   final String name;
+}
+
+extension map_type_extension on Map<map_type, int> {
+  Map<String, int> get toMapString {
+    Map<String, int> map = {};
+    forEach((key, value) {
+      map[key.name] = value;
+    });
+    return map;
+  }
 }
 
 class CreateMapWidget extends StatefulWidget {
@@ -69,6 +80,146 @@ class MapState extends State<CreateMapWidget> {
   }
 }
 
+class TypeTapCountsRecord {
+  map_type type;
+  int count;
+  TypeTapCountsRecord({required this.type, required this.count});
+}
+
+extension TypeTapCountsRecordExtension on TypeTapCountsRecord {
+  Map<String, int> get toMapString {
+    Map<String, int> map = {};
+    map[type.name] = count;
+    return map;
+  }
+
+  set fromMapString(Map<String, int> map) {
+    map.forEach((key, value) {
+      type = map_type.values.firstWhere((element) => element.name == key);
+      count = value;
+    });
+  }
+}
+
+class DataBaseProvider {
+  static final DataBaseProvider _instance = DataBaseProvider._internal();
+  static Database? _database;
+  DataBaseProvider._internal();
+
+  factory DataBaseProvider() {
+    return _instance;
+  }
+
+  Future<Database> getDBConnect() async {
+    if (_database != null) {
+      return _database!;
+    }
+    return await _initDatabase();
+  }
+
+  Future<Database> _initDatabase() async {
+    return _database ??= await openDatabase(
+      join(await getDatabasesPath(), 'tapdata.db'),
+      onCreate: (db, version) {
+        return db.execute(
+          'CREATE TABLE tap_counts(type TEXT PRIMARY KEY, count INTEGER)',
+        );
+      },
+      version: 1,
+    );
+  }
+
+  Future insert(TypeTapCountsRecord records) async {
+    final db = await getDBConnect();
+    await db.insert(
+      'tap_counts',
+      records.toMapString,
+      conflictAlgorithm: ConflictAlgorithm.abort,
+    );
+  }
+
+  Future insertAllType() async {
+    final db = await getDBConnect();
+    map_type.values.forEach((element) async {
+      await db.insert(
+        'tap_counts',
+        {'type': element.name, 'count': 0},
+        conflictAlgorithm: ConflictAlgorithm.abort,
+      );
+    });
+  }
+
+  Future<List<TypeTapCountsRecord>> queryAll() async {
+    final db = await getDBConnect();
+    final List<Map<String, dynamic>> maps = await db.query('tap_counts');
+    return List.generate(maps.length, (i) {
+      return TypeTapCountsRecord(
+        type: map_type.values.firstWhere(
+            (element) => element.name == maps[i]['type'].toString()),
+        count: maps[i]['count'],
+      );
+    });
+  }
+
+  Future update(TypeTapCountsRecord records) async {
+    final db = await getDBConnect();
+    await db.update(
+      'tap_counts',
+      records.toMapString,
+      where: 'type = ?',
+      whereArgs: [records.type.name],
+    );
+  }
+
+  Future delete(TypeTapCountsRecord records) async {
+    final db = await getDBConnect();
+    await db.delete(
+      'tap_counts',
+      where: 'type = ?',
+      whereArgs: [records.type.name],
+    );
+  }
+
+  Future close() async {
+    final db = await getDBConnect();
+    db.close();
+  }
+
+  Future<int> getCount(map_type type) async {
+    final db = await getDBConnect();
+    final List<Map<String, dynamic>> maps = await db.query('tap_counts',
+        columns: ['count'], where: 'type = ?', whereArgs: [type.name]);
+    if (maps.isNotEmpty) {
+      return maps.first['count'];
+    }
+    print("get 0");
+    return 0;
+  }
+
+  Future<int> updateCount(map_type type, int count) async {
+    final db = await getDBConnect();
+    print("updateCount: ${type.name}, $count");
+    return await db.update('tap_counts', {'count': count},
+        where: 'type = ?', whereArgs: [type.name]);
+  }
+
+  Future<int> insertCount(map_type type, int count) async {
+    final db = await getDBConnect();
+    return await db.insert('tap_counts', {'type': type.name, 'count': count},
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  Future<int> deleteCount(map_type type) async {
+    final db = await getDBConnect();
+    return await db.delete('tap_counts', where: 'type = ?', whereArgs: [type]);
+  }
+
+  Future<int> increment1(map_type type) async {
+    int count = await getCount(type);
+    return await updateCount(type, count + 1);
+  }
+}
+
 class Events {
   static Map<map_type, Uri> map_urls = {
     map_type.water_electricity: Uri.parse(
@@ -104,21 +255,81 @@ class Events {
     map_type.group_buying: '團購找',
     map_type.group_course: '成長課程',
     map_type.outings: '旅行社',
-    map_type.my_favorite: '我的最愛',
   };
 
   static openMap(BuildContext context, map_type? type) {
     if (type == null) {
-      print('openMap: type is null');
+      print('Warn: openMap() type is null');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Warn: openMap() type is null'),
+        ),
+      );
       return;
     }
-    // Uri url = map_urls[type];
-    //Navigator.push(
-    //    context, MaterialPageRoute(builder: (context) => CreateMapWidget(url)));
-    MapsLauncher.launchQuery(map_names[type]!);
+
+    DataBaseProvider db = DataBaseProvider();
+    db.increment1(type).then((t) {
+      MapsLauncher.launchQuery(map_names[type]!);
+    });
+
+    // debug
+    /*
+    db.queryAll().then((value) {
+      value.forEach((element) {
+        print('${element.type.name}: ${element.count}');
+      });
+    });*/
   }
 
   static openMyFavorite(BuildContext context) {
-    print('openMyFavorite');
+    List<TypeTapCountsRecord> records = [];
+
+    // query from database and get records
+    DataBaseProvider db = DataBaseProvider();
+    db.queryAll().then((value) {
+      records = value;
+      value.forEach((element) {
+        print('value: ${element.type.name}: ${element.count}');
+      });
+      records.sort((a, b) => b.count.compareTo(a.count));
+      records.forEach((element) {
+        print('list: ${element.type.name}: ${element.count}');
+      });
+
+      // show dialog with sorted list
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('我的最愛'),
+            content: SizedBox(
+              height: 300,
+              width: 300,
+              child: ListView.builder(
+                itemCount: records.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    title: Text(records[index].type.name),
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      openMap(context, records[index].type);
+                    },
+                  );
+                },
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('關閉'),
+              ),
+            ],
+          );
+        },
+      );
+    });
   }
 }

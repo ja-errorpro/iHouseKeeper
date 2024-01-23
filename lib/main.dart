@@ -13,6 +13,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DataBaseProvider db = DataBaseProvider();
+
+    // in first time, insert all type with 0 count
+    // get if database is empty
+    db.queryAll().then((value) {
+      if (value.isEmpty) {
+        // insert all type with 0 count
+        db.insertAllType();
+      }
+    });
+
     return const MaterialApp(
       title: 'iHouseKeeper',
       home: MainScreen(),
