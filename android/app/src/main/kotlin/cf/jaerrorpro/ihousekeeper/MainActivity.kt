@@ -1,4 +1,4 @@
-package com.example.helloworld
+package cf.jaerrorpro.ihousekeeper
 
 import io.flutter.embedding.android.FlutterActivity
 
