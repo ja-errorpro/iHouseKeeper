@@ -44,9 +44,6 @@ dependencies:
   maps_launcher: ^2.2.0
   path: ^1.8.3
   sqflite: ^2.3.0
-  js: ^0.7.0
-  test_api: ^0.7.0
-  vm_service: ^14.0.0
 
 dev_dependencies:
   flutter_test:
