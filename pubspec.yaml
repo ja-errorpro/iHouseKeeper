@@ -44,6 +44,8 @@ dependencies:
   maps_launcher: ^2.2.0
   path: ^1.8.3
   sqflite: ^2.3.0
+  firebase_core: ^2.25.3
+  firebase_analytics: ^10.8.4
 
 dev_dependencies:
   flutter_test:

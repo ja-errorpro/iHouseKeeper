@@ -3,8 +3,19 @@ import 'package:ihousekeeper/permission.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:ihousekeeper/buttons.dart';
 import 'package:ihousekeeper/button_tap_events.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+    FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
+  } catch (e) {
+    print("Firebase initialize error: $e");
+  }
   runApp(MyApp());
 }
 

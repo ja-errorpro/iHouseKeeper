@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 enum map_type {
   water_electricity('水電維修'),
@@ -270,6 +271,9 @@ class Events {
 
     DataBaseProvider db = DataBaseProvider();
     db.increment1(type).then((t) {
+      FirebaseAnalytics.instance.logEvent(name: 'openMap', parameters: {
+        'type': type.name,
+      });
       MapsLauncher.launchQuery(map_names[type]!);
     });
 
