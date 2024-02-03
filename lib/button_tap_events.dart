@@ -271,10 +271,12 @@ class Events {
 
     DataBaseProvider db = DataBaseProvider();
     db.increment1(type).then((t) {
-      FirebaseAnalytics.instance.logEvent(name: 'openMap', parameters: {
+      FirebaseAnalytics.instance
+          .logEvent(name: 'openMap', parameters: <String, dynamic>{
         'type': type.name,
+      }).then((launch) {
+        MapsLauncher.launchQuery(map_names[type]!);
       });
-      MapsLauncher.launchQuery(map_names[type]!);
     });
 
     // debug

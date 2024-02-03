@@ -16,6 +16,7 @@ void main() async {
   } catch (e) {
     print("Firebase initialize error: $e");
   }
+  await FirebaseAnalytics.instance.logAppOpen();
   runApp(MyApp());
 }
 
