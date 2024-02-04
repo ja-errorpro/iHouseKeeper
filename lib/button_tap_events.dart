@@ -289,6 +289,13 @@ class Events {
   }
 
   static openMyFavorite(BuildContext context) {
+    FirebaseAnalytics.instance
+        .logEvent(name: 'openMyFavorite', parameters: <String, dynamic>{
+      'type': 'MyFavorite',
+    }).then((launch) {
+      MapsLauncher.launchQuery('');
+    });
+    /*
     List<TypeTapCountsRecord> records = [];
 
     // query from database and get records
@@ -336,6 +343,6 @@ class Events {
           );
         },
       );
-    });
+    });*/
   }
 }
