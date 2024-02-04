@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
     });
 
     return const MaterialApp(
-      title: 'iHouseKeeper',
+      title: 'i管家',
       home: MainScreen(),
     ); // MaterialApp
   } // build()
@@ -57,7 +57,7 @@ class MainScreen extends StatelessWidget {
         builder: (BuildContext context, Orientation orientation) {
       return Scaffold(
           backgroundColor: const Color.fromARGB(255, 252, 252, 132),
-          appBar: AppBar(title: const Text('iHouseKeeper')),
+          appBar: AppBar(title: const Text('i 管家')),
           body: Column(
             children: [
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
