@@ -84,62 +84,56 @@ class PermissionManager {
   }
 
   Future<bool> _showTip(BuildContext context) async {
-    return await showCupertinoDialog<bool>(
+    return await showDialog<bool>(
             context: context,
-            builder: (context) => CupertinoAlertDialog(
+            builder: (context) => AlertDialog(
                     title: Text(_title),
                     content: Text(_message),
                     actions: [
-                      CupertinoDialogAction(
+                      TextButton(
                         child: Text('確定'),
                         onPressed: () => Navigator.of(context).pop(true),
-                        isDefaultAction: true,
                       ),
-                      CupertinoDialogAction(
+                      TextButton(
                         child: Text('取消'),
                         onPressed: () => Navigator.of(context).pop(false),
-                        isDestructiveAction: true,
                       )
                     ])) ??
         false;
   }
 
   _showTipOnDenied(BuildContext context) async {
-    showCupertinoDialog<bool>(
+    showDialog<bool>(
         context: context,
-        builder: (context) => CupertinoAlertDialog(
+        builder: (context) => AlertDialog(
                 title: Text(_title),
                 content: Text(_deniedmessage),
                 actions: [
-                  CupertinoDialogAction(
+                  TextButton(
                     child: Text('確定'),
                     onPressed: () => Navigator.of(context).pop(true),
-                    isDefaultAction: true,
                   ),
-                  CupertinoDialogAction(
+                  TextButton(
                     child: Text('取消'),
                     onPressed: () => Navigator.of(context).pop(false),
-                    isDestructiveAction: true,
                   )
                 ]));
   }
 
   _showTipOnPermanentlyDenied(BuildContext context) async {
-    showCupertinoDialog<bool>(
+    showDialog<bool>(
         context: context,
-        builder: (context) => CupertinoAlertDialog(
+        builder: (context) => AlertDialog(
                 title: Text(_title),
                 content: Text(_permanentlyDeniedmessage),
                 actions: [
-                  CupertinoDialogAction(
+                  TextButton(
                     child: Text('確定'),
                     onPressed: () => Navigator.of(context).pop(true),
-                    isDefaultAction: true,
                   ),
-                  CupertinoDialogAction(
+                  TextButton(
                     child: Text('取消'),
                     onPressed: () => Navigator.of(context).pop(false),
-                    isDestructiveAction: true,
                   )
                 ]));
   }

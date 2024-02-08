@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 enum map_type {
   water_electricity('水電維修'),
@@ -270,7 +271,12 @@ class Events {
 
     DataBaseProvider db = DataBaseProvider();
     db.increment1(type).then((t) {
-      MapsLauncher.launchQuery(map_names[type]!);
+      FirebaseAnalytics.instance
+          .logEvent(name: 'openMap', parameters: <String, dynamic>{
+        'type': type.name,
+      }).then((launch) {
+        MapsLauncher.launchQuery(map_names[type]!);
+      });
     });
 
     // debug
@@ -282,7 +288,30 @@ class Events {
     });*/
   }
 
-  static openMyFavorite(BuildContext context) {
+  static openMyFavorite(BuildContext context) async {
+    await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset('assets/images/my_favorite_tutorials.jpg')
+                  ],
+                ),
+                actions: [
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('確定'))
+                ]));
+    FirebaseAnalytics.instance
+        .logEvent(name: 'openMyFavorite', parameters: <String, dynamic>{
+      'type': 'MyFavorite',
+    }).then((launch) {
+      MapsLauncher.launchQuery('');
+    });
+    /*
     List<TypeTapCountsRecord> records = [];
 
     // query from database and get records
@@ -330,6 +359,6 @@ class Events {
           );
         },
       );
-    });
+    });*/
   }
 }

@@ -3,8 +3,20 @@ import 'package:ihousekeeper/permission.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:ihousekeeper/buttons.dart';
 import 'package:ihousekeeper/button_tap_events.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform);
+    FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
+  } catch (e) {
+    print("Firebase initialize error: $e");
+  }
+  await FirebaseAnalytics.instance.logAppOpen();
   runApp(MyApp());
 }
 
@@ -25,7 +37,7 @@ class MyApp extends StatelessWidget {
     });
 
     return const MaterialApp(
-      title: 'iHouseKeeper',
+      title: 'i管家',
       home: MainScreen(),
     ); // MaterialApp
   } // build()
@@ -45,7 +57,7 @@ class MainScreen extends StatelessWidget {
         builder: (BuildContext context, Orientation orientation) {
       return Scaffold(
           backgroundColor: const Color.fromARGB(255, 252, 252, 132),
-          appBar: AppBar(title: const Text('iHouseKeeper')),
+          appBar: AppBar(title: const Text('i 管家')),
           body: Column(
             children: [
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [

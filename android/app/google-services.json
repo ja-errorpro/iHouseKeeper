@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1019208724171",
+    "project_id": "ihousekeeper-138db",
+    "storage_bucket": "ihousekeeper-138db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1019208724171:android:d5e3a133258440135cf54e",
+        "android_client_info": {
+          "package_name": "cf.jaerrorpro.ihousekeeper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsDWwzEdGg2SgPYem8Kc-pNVTrPbYPxDk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
