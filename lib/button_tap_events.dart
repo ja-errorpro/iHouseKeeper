@@ -288,7 +288,23 @@ class Events {
     });*/
   }
 
-  static openMyFavorite(BuildContext context) {
+  static openMyFavorite(BuildContext context) async {
+    await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset('assets/images/my_favorite_tutorials.jpg')
+                  ],
+                ),
+                actions: [
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('確定'))
+                ]));
     FirebaseAnalytics.instance
         .logEvent(name: 'openMyFavorite', parameters: <String, dynamic>{
       'type': 'MyFavorite',
