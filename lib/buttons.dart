@@ -11,7 +11,7 @@ class Buttons {
             padding: const EdgeInsets.all(8.0),
             child: Image(
               image: AssetImage(image),
-              width: 50,
+              width: 45,
             ),
           ),
           Text(text)

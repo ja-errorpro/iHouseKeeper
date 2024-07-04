@@ -55,46 +55,98 @@ class MainScreen extends StatelessWidget {
     // p.getPermission(context, Permission.photos);
     return OrientationBuilder(
         builder: (BuildContext context, Orientation orientation) {
-      return Scaffold(
-          backgroundColor: const Color.fromARGB(255, 252, 252, 132),
-          appBar: AppBar(title: const Text('i 管家')),
-          body: Column(
-            children: [
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Buttons.getButton('水電維修', 'assets/images/water_electricity.png',
-                    () => Events.openMap(context, map_type.water_electricity)),
-                Buttons.getButton('房屋裝修', 'assets/images/house_decoration.jpg',
-                    () => Events.openMap(context, map_type.house_decoration)),
-                Buttons.getButton(
-                    '搬家清運',
-                    'assets/images/movingNtransportation.jpg',
-                    () => Events.openMap(
-                        context, map_type.movingNtransportation)),
-                Buttons.getButton('家事清潔', 'assets/images/house_cleaning.jpg',
-                    () => Events.openMap(context, map_type.house_cleaning)),
-              ]), // Row
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Buttons.getButton('交通接送', 'assets/images/transportation.jpg',
-                    () => Events.openMap(context, map_type.transportation)),
-                Buttons.getButton('緊急救援', 'assets/images/emergency.jpg',
-                    () => Events.openMap(context, map_type.emergency)),
-                Buttons.getButton('身體照顧', 'assets/images/body_care.jpg',
-                    () => Events.openMap(context, map_type.body_care)),
-                Buttons.getButton('藥局找', 'assets/images/pharmacy.jpg',
-                    () => Events.openMap(context, map_type.pharmacy)),
-              ]), // Row
-              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                Buttons.getButton('團購找', 'assets/images/group_buying.jpg',
-                    () => Events.openMap(context, map_type.group_buying)),
-                Buttons.getButton('成長課程', 'assets/images/growth_course.jpg',
-                    () => Events.openMap(context, map_type.group_course)),
-                Buttons.getButton('結伴郊遊', 'assets/images/outing.jpg',
-                    () => Events.openMap(context, map_type.outings)),
-                Buttons.getButton('我的最愛', 'assets/images/my_favourite.jpg',
-                    () => Events.openMyFavorite(context)),
-              ]) // Row
-            ],
-          ));
+      if (orientation == Orientation.portrait) {
+        // vertical layout
+        return Scaffold(
+            backgroundColor: const Color.fromARGB(255, 252, 252, 132),
+            appBar: AppBar(title: const Text('i 管家')),
+            body: Column(
+              children: [
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Buttons.getButton(
+                      '水電維修',
+                      'assets/images/水電.png',
+                      () =>
+                          Events.openMap(context, map_type.water_electricity)),
+                  Buttons.getButton('房屋裝修', 'assets/images/房屋裝修.png',
+                      () => Events.openMap(context, map_type.house_decoration)),
+                  Buttons.getButton(
+                      '搬家清運',
+                      'assets/images/搬家.png',
+                      () => Events.openMap(
+                          context, map_type.movingNtransportation)),
+                ]), // Row
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Buttons.getButton('家事清潔', 'assets/images/清潔.png',
+                      () => Events.openMap(context, map_type.house_cleaning)),
+                  Buttons.getButton('交通接送', 'assets/images/接送.png',
+                      () => Events.openMap(context, map_type.transportation)),
+                  Buttons.getButton('緊急救援', 'assets/images/急救.png',
+                      () => Events.openMap(context, map_type.emergency)),
+                ]), // Row
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Buttons.getButton('身體照顧', 'assets/images/身體照顧.png',
+                      () => Events.openMap(context, map_type.body_care)),
+                  Buttons.getButton('藥局找', 'assets/images/藥局找.png',
+                      () => Events.openMap(context, map_type.pharmacy)),
+                  Buttons.getButton('團購找', 'assets/images/團購找.png',
+                      () => Events.openMap(context, map_type.group_buying)),
+                ]), // Row
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Buttons.getButton('成長課程', 'assets/images/活動課程.png',
+                      () => Events.openMap(context, map_type.group_course)),
+                  Buttons.getButton('結伴郊遊', 'assets/images/郊遊.png',
+                      () => Events.openMap(context, map_type.outings)),
+                  Buttons.getButton('我的最愛', 'assets/images/我的最愛.png',
+                      () => Events.openMyFavorite(context)),
+                ])
+              ],
+            ));
+      } else {
+        return Scaffold(
+            backgroundColor: const Color.fromARGB(255, 252, 252, 132),
+            appBar: AppBar(title: const Text('i 管家')),
+            body: Column(
+              children: [
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Buttons.getButton(
+                      '水電維修',
+                      'assets/images/水電.png',
+                      () =>
+                          Events.openMap(context, map_type.water_electricity)),
+                  Buttons.getButton('房屋裝修', 'assets/images/房屋裝修.png',
+                      () => Events.openMap(context, map_type.house_decoration)),
+                  Buttons.getButton(
+                      '搬家清運',
+                      'assets/images/搬家.png',
+                      () => Events.openMap(
+                          context, map_type.movingNtransportation)),
+                  Buttons.getButton('家事清潔', 'assets/images/清潔.png',
+                      () => Events.openMap(context, map_type.house_cleaning)),
+                ]), // Row
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Buttons.getButton('交通接送', 'assets/images/接送.png',
+                      () => Events.openMap(context, map_type.transportation)),
+                  Buttons.getButton('緊急救援', 'assets/images/急救.png',
+                      () => Events.openMap(context, map_type.emergency)),
+                  Buttons.getButton('身體照顧', 'assets/images/身體照顧.png',
+                      () => Events.openMap(context, map_type.body_care)),
+                  Buttons.getButton('藥局找', 'assets/images/藥局找.png',
+                      () => Events.openMap(context, map_type.pharmacy)),
+                ]), // Row
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  Buttons.getButton('團購找', 'assets/images/團購找.png',
+                      () => Events.openMap(context, map_type.group_buying)),
+                  Buttons.getButton('成長課程', 'assets/images/活動課程.png',
+                      () => Events.openMap(context, map_type.group_course)),
+                  Buttons.getButton('結伴郊遊', 'assets/images/郊遊.png',
+                      () => Events.openMap(context, map_type.outings)),
+                  Buttons.getButton('我的最愛', 'assets/images/我的最愛.png',
+                      () => Events.openMyFavorite(context)),
+                ]) // Row
+              ],
+            ));
+      }
     });
 
     //return ; // Scaffold
