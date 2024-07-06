@@ -253,9 +253,9 @@ class Events {
     map_type.emergency: '緊急救援',
     map_type.body_care: '身體照顧',
     map_type.pharmacy: '藥局找',
-    map_type.group_buying: '團購找',
+    map_type.group_buying: '團購+超市+賣場',
     map_type.group_course: '成長課程',
-    map_type.outings: '旅行社',
+    map_type.outings: '景點',
   };
 
   static openMap(BuildContext context, map_type? type) {

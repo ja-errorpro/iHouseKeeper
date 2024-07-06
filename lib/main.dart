@@ -62,11 +62,9 @@ class MainScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("i 管家"),
-                Text("在地在家養老🍀", style: TextStyle(fontSize: 12)),
-                Text("安心&放心💖", style: TextStyle(fontSize: 12))
+                Text("在地在家養老🍀  安心&放心💖", style: TextStyle(fontSize: 14))
               ],
             ),
-            toolbarHeight: 70,
           ),
           body: Align(
               alignment: Alignment.center,
@@ -115,11 +113,11 @@ class MainScreen extends StatelessWidget {
                           () => Events.openMap(context, map_type.body_care)),
                       Buttons.getButton('藥局找', 'assets/images/藥局找.png',
                           () => Events.openMap(context, map_type.pharmacy)),
-                      Buttons.getButton('團購找', 'assets/images/團購找.png',
+                      Buttons.getButton('團購賣場超市', 'assets/images/團購找.png',
                           () => Events.openMap(context, map_type.group_buying)),
                       Buttons.getButton('成長課程', 'assets/images/活動課程.png',
                           () => Events.openMap(context, map_type.group_course)),
-                      Buttons.getButton('結伴郊遊', 'assets/images/郊遊.png',
+                      Buttons.getButton('結伴郊遊\n    景點', 'assets/images/郊遊.png',
                           () => Events.openMap(context, map_type.outings)),
                       Buttons.getButton('我的最愛', 'assets/images/我的最愛.png',
                           () => Events.openMyFavorite(context)),
